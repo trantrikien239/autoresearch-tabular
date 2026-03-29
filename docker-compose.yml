@@ -1,0 +1,19 @@
+services:
+  sandbox:
+    build:
+      context: .
+      network: host
+    volumes:
+      - .:/app/code                                    # full project (git, code, config)
+      - ./data/original:/app/code/data/original:ro     # original data (read-only)
+    working_dir: /app/code
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    command: ["sleep", "infinity"]
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+    deploy:
+      resources:
+        limits:
+          memory: 16g
